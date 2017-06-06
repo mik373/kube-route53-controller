@@ -1,0 +1,23 @@
+#!/bin/bash -x
+
+VERSION=${1}
+
+if [ -z ${VERSION} ]; then
+    echo "Usage: ./build <VERSION>"
+    exit 1
+fi
+
+export GOPATH=~/GO
+make
+
+IMAGE_NAME="mik373/kube-route53-controller"
+DOCKER_TAG=${IMAGE_NAME}
+DOCKER_TAG_LATEST=${DOCKER_TAG}:latest
+
+docker build \
+  --rm=true \
+  --file="Dockerfile" \
+  --tag ${DOCKER_TAG_LATEST} \
+  .
+docker tag ${DOCKER_TAG_LATEST} ${DOCKER_TAG}:${VERSION}
+docker push ${DOCKER_TAG}:${VERSION}

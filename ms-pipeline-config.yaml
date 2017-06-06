@@ -1,0 +1,20 @@
+current-context: federal-context
+apiVersion: v1
+clusters:
+- cluster:
+    api-version: v1
+    server: https://ms-pipeline-us-master.infra.jivehosted.com
+    certificate-authority: "/Users/mikhail.khodorovskiy/.mako/certs/cert-mako-api-jiveinfradev/ca.crt"
+  name: pipeline-cluster
+contexts:
+- context:
+    cluster: pipeline-cluster
+    namespace: ms-integ
+    user: pipeline-user
+  name: federal-context
+kind: Config
+users:
+- name: pipeline-user
+  user:
+    client-certificate: "/Users/mikhail.khodorovskiy/.mako/certs/cert-mako-api-jiveinfradev/service.crt"
+    client-key: "/Users/mikhail.khodorovskiy/.mako/certs/cert-mako-api-jiveinfradev/service.key"
